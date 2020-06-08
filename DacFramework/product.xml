@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Product xmlns="http://schemas.microsoft.com/developer/2004/01/bootstrapper" ProductCode="{696B61AD-8754-4629-95DC-F4CF5249385F}">
+  <RelatedProducts>
+    <IncludesProduct Code="{696B61AD-8754-4629-95DC-F4CF5249385F}" />
+  </RelatedProducts>
+
+  <PackageFiles CopyAllPackageFiles="false">
+   
+    <PackageFile
+      Name="dacframework.msi"
+	    HomeSite="dacframework"
+      PublicKey="3082010a0282010100ceb7c90b73b3f74fb30a221a2e6077b03059a7abc032bbb14e85909069b570069d954b85b207641ee134014fc681ce700d0c43e31ca35d3d3f17cf970d6a58ba5c779f4bc8bf597b45d2f4ac3fc344bfa9811ee036a757f0db007f174747b09dc67d9e5cd2c3c98e496c898a8fc39f71279e2433dd483a088ed8e5338cd0258cf89b8c259f1fb5334354cf1dce1dc1e8a5b3c18422b6c145bec85b088e6cbd768d64f8621ef535082f27d167ebe5210fdc76ba4ddd2e3f38bf0b7536e1508ad289c485747d5b11351dda6d054e2eaa43ba06ebd12ccd2faa3cc733872f93978861b083a7a4897035ff65d763bc9515cdfdb6579d0ed6634a335b7b1d73cf04970203010001"
+    />
+  </PackageFiles>
+
+  <InstallChecks>
+    <!-- Check if already installed -->
+    <FileCheck
+      Property="dacframeworkVersion"
+      FileName="sqlpackage.exe"
+      SearchPath="Microsoft SQL Server\150\DAC\bin"
+      SpecialFolder="ProgramFilesFolder"
+    />
+    <!-- Check for x64 install from x86 installer -->
+    <FileCheck
+      Property="dacframeworkVersion_x64"
+      FileName="sqlpackage.exe"
+      SearchPath="Program Files\Microsoft SQL Server\150\DAC\bin"
+      SpecialFolder="WindowsVolume"
+    />
+  </InstallChecks>
+
+  <Commands Reboot="Defer">
+   <Command PackageFile="dacframework.msi" Arguments="IACCEPTSQLLOCALDBLICENSETERMS=YES" EstimatedInstallSeconds="90">
+      <InstallConditions>
+        <BypassIf Property="ProcessorArchitecture" Compare="ValueNotEqualTo" Value="amd64" />
+        <BypassIf Property="dacframeworkVersion" Compare="VersionGreaterThanOrEqualTo" Value="15.0.0.0" />
+        <BypassIf Property="dacframeworkVersion_x64" Compare="VersionGreaterThanOrEqualTo" Value="15.0.0.0" />
+      </InstallConditions>
+      <ExitCodes>
+        <ExitCode Value="0" Result="Success" />
+        <ExitCode Value="1641" Result="SuccessReboot" />
+        <ExitCode Value="3010" Result="SuccessReboot" />
+        <DefaultExitCode Result="Fail" String="GeneralFailure" FormatMessageFromSystem="true" />
+      </ExitCodes>
+    </Command>
+  </Commands>
+</Product>
