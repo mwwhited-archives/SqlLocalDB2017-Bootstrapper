@@ -36,9 +36,9 @@ WixPdbPath  F:\B\16846\6200\Binaries\x64\Release\DACFramework.wixpdb
 
 ## Other stuff
 
-SET TempSqlDeployPath=%temp%\nucleus\sqldeploy
-SET SqlDatabase=NucleusDB
-SET SqlServer=(localdb)\NucleusDB
+SET TempSqlDeployPath=%temp%\test\sqldeploy
+SET SqlDatabase=testDB
+SET SqlServer=(localdb)\testDB
 
 SET TempSqlConnection=server=%SqlServe%;database=%SqlDatabase%;trusted_connection=true;
 
@@ -46,7 +46,7 @@ SET SqlPackageCmd=sqlpackage.exe
 SET SqlCmdCmd=sqlcmd.exe
 
 SET SqlTarget=%TempSqlDeployPath%\current.database.dacpac
-SET SqlSource=Lightwell.Nucleus.Persistence.NucleusDb.dacpac
+SET SqlSource=testDb.dacpac
 SET SqlChangeScript=%TempSqlDeployPath%\update.database.sql
 
 REM IF NOT EXIST "%TempSqlDeployPath%" (MKDIR "%TempSqlDeployPath%")
