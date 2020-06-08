@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Product xmlns="http://schemas.microsoft.com/developer/2004/01/bootstrapper" ProductCode=".NETFramework,Version=v4.7.2">
+  <!-- Defines list of files to be copied on build -->
+  <PackageFiles CopyAllPackageFiles="false">
+    <PackageFile Name="windowsdesktop-runtime-3.1.3-win-x64.exe" HomeSite="DotNetCore313DesktopWebBootstrapper" PublicKey="3082010a0282010100b1a789d3f6a7eef4ed74889c9ec185c794df96121efd368a2bf6784ce9e9d435b09b857f6f4bef1cff778855acd26275414ea2f35bbc563756c2708b436ec13328413606cc12ba7ec9f7109a2f07061ca16bfaa594973ee187d45c9a361290e18dc9b39fae08f7b26d034ada0af258f01325157917cc1f1f44ffb09afce12ad9c5c14f72f47d59e51247da977d7410508b0e8d81ac4df93464631befe79d98aa2aa121e6558d937dc957cfc8d1f21c50aacb126506aefd02802ef0d9c8e66c1841209fb42b34a74968a7817a25ff7894741072e1040d1fbebb9181ae9c9798d3c4631cc2208c909d02810cfb6997bf5a61695ee3f8cddd37367f71db33de80df0203010001"/>
+    </PackageFiles>
+  <RelatedProducts>
+    <IncludesProduct Code=".NETCore Desktop Runtime,Version=v3.1.3" />
+  </RelatedProducts>
+  <InstallChecks>
+    <FileCheck
+      Property="DotNetCoreDsktopRuntime_Release"
+      FileName="WindowsBase.dll"
+      SearchPath="Program Files\dotnet\packs\Microsoft.WindowsDesktop.App.Ref\3.1.0\ref\netcoreapp3.1"
+      SpecialFolder="WindowsVolume"
+    />
+  </InstallChecks>
+  <!-- Defines how to invoke the setup for .NET Framework redist -->
+  <Commands Reboot="Immediate">
+    <!--Command for downlevel and future Operating Systems where netfx is not integrated within OS.-->
+    <Command PackageFile="windowsdesktop-runtime-3.1.3-win-x64.exe" Arguments="">
+      <!-- These checks determine whether the package is to be installed -->
+      <InstallConditions>
+        <BypassIf Property="DotNetCoreDsktopRuntime_Release" Compare="ValueGreaterThan" Value="4.800.0.0"  />
+        <FailIf Property="AdminUser" Compare="ValueEqualTo" Value="false" String="AdminRequired" />
+      </InstallConditions>
+      <ExitCodes>
+        <ExitCode Value="0" Result="Success" />
+        <ExitCode Value="3010" Result="SuccessReboot" />
+        <DefaultExitCode Result="Fail" FormatMessageFromSystem="false" String="GeneralFailure" />
+      </ExitCodes>
+    </Command>
+    </Commands>
+</Product>
